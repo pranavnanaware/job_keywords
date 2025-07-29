@@ -1,0 +1,179 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <meta charset="utf-8">
+  <style>
+    body {
+      width: 400px;
+      min-height: 300px;
+      padding: 20px;
+      font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif;
+      background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+      color: white;
+      margin: 0;
+    }
+    
+    .container {
+      background: rgba(255, 255, 255, 0.1);
+      padding: 20px;
+      border-radius: 15px;
+      backdrop-filter: blur(10px);
+      border: 1px solid rgba(255, 255, 255, 0.2);
+    }
+    
+    h1 {
+      margin: 0 0 20px 0;
+      font-size: 24px;
+      text-align: center;
+    }
+    
+    .upload-section {
+      margin-bottom: 20px;
+    }
+    
+    .file-input-wrapper {
+      position: relative;
+      display: inline-block;
+      width: 100%;
+    }
+    
+    .file-input {
+      position: absolute;
+      opacity: 0;
+      width: 100%;
+      height: 100%;
+      cursor: pointer;
+    }
+    
+    .file-input-button {
+      display: block;
+      width: 100%;
+      padding: 12px;
+      background: rgba(255, 255, 255, 0.2);
+      border: 2px dashed rgba(255, 255, 255, 0.5);
+      border-radius: 8px;
+      text-align: center;
+      cursor: pointer;
+      transition: all 0.3s ease;
+    }
+    
+    .file-input-button:hover {
+      background: rgba(255, 255, 255, 0.3);
+      border-color: rgba(255, 255, 255, 0.8);
+    }
+    
+    .analyze-btn {
+      width: 100%;
+      padding: 12px;
+      background: #4CAF50;
+      color: white;
+      border: none;
+      border-radius: 8px;
+      font-size: 16px;
+      cursor: pointer;
+      transition: background 0.3s ease;
+      margin-bottom: 15px;
+    }
+    
+    .analyze-btn:hover {
+      background: #45a049;
+    }
+    
+    .analyze-btn:disabled {
+      background: #666;
+      cursor: not-allowed;
+    }
+    
+    .results {
+      margin-top: 20px;
+    }
+    
+    .match-score {
+      font-size: 24px;
+      font-weight: bold;
+      text-align: center;
+      margin-bottom: 15px;
+      padding: 15px;
+      background: rgba(255, 255, 255, 0.2);
+      border-radius: 8px;
+    }
+    
+    .keywords-section {
+      margin-bottom: 15px;
+    }
+    
+    .keywords-title {
+      font-weight: bold;
+      margin-bottom: 8px;
+    }
+    
+    .keyword-list {
+      display: flex;
+      flex-wrap: wrap;
+      gap: 5px;
+    }
+    
+    .keyword-tag {
+      background: rgba(255, 255, 255, 0.3);
+      padding: 4px 8px;
+      border-radius: 15px;
+      font-size: 12px;
+    }
+    
+    .matched {
+      background: #4CAF50;
+    }
+    
+    .missing {
+      background: #f44336;
+    }
+    
+    .status {
+      text-align: center;
+      margin: 10px 0;
+      font-style: italic;
+    }
+    
+    .error {
+      color: #ffeb3b;
+    }
+  </style>
+</head>
+<body>
+  <div class="container">
+    <h1>🎯 Job Matcher</h1>
+    
+    <div class="upload-section">
+      <div class="file-input-wrapper">
+        <input type="file" id="resumeFile" class="file-input" accept=".pdf,.txt,.docx">
+        <label for="resumeFile" class="file-input-button">
+          📄 Upload Resume (PDF, TXT, DOCX)
+        </label>
+      </div>
+      <div id="fileName" class="status"></div>
+    </div>
+    
+    <button id="analyzeBtn" class="analyze-btn" disabled>
+      🔍 Analyze Current Job Posting
+    </button>
+    
+    <div id="status" class="status"></div>
+    
+    <div id="results" class="results" style="display: none;">
+      <div id="matchScore" class="match-score"></div>
+      
+      <div class="keywords-section">
+        <div class="keywords-title">✅ Matched Keywords:</div>
+        <div id="matchedKeywords" class="keyword-list"></div>
+      </div>
+      
+      <div class="keywords-section">
+        <div class="keywords-title">❌ Missing Keywords:</div>
+        <div id="missingKeywords" class="keyword-list"></div>
+      </div>
+    </div>
+  </div>
+  
+  <script src="popup.js"></script>
+</body>
+</html>
