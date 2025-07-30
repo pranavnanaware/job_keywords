@@ -1,0 +1,467 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <meta charset="utf-8">
+  <style>
+    * {
+      box-sizing: border-box;
+      margin: 0;
+      padding: 0;
+    }
+    
+    body {
+      width: 450px;
+      min-height: 500px;
+      font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif;
+      background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+      color: white;
+    }
+    
+    .header {
+      padding: 15px 20px;
+      text-align: center;
+      border-bottom: 1px solid rgba(255, 255, 255, 0.1);
+    }
+    
+    .header h1 {
+      font-size: 22px;
+      margin-bottom: 5px;
+    }
+    
+    .header .subtitle {
+      font-size: 12px;
+      opacity: 0.8;
+    }
+    
+    .tabs {
+      display: flex;
+      background: rgba(0, 0, 0, 0.1);
+    }
+    
+    .tab {
+      flex: 1;
+      padding: 12px;
+      text-align: center;
+      cursor: pointer;
+      transition: background 0.3s ease;
+      border: none;
+      background: transparent;
+      color: white;
+      font-size: 14px;
+    }
+    
+    .tab:hover {
+      background: rgba(255, 255, 255, 0.1);
+    }
+    
+    .tab.active {
+      background: rgba(255, 255, 255, 0.2);
+      border-bottom: 2px solid #fff;
+    }
+    
+    .tab-content {
+      display: none;
+      padding: 20px;
+      min-height: 400px;
+    }
+    
+    .tab-content.active {
+      display: block;
+    }
+    
+    /* Analyze Tab Styles */
+    .upload-section {
+      margin-bottom: 20px;
+    }
+    
+    .file-input-wrapper {
+      position: relative;
+      width: 100%;
+    }
+    
+    .file-input {
+      position: absolute;
+      opacity: 0;
+      width: 100%;
+      height: 100%;
+      cursor: pointer;
+    }
+    
+    .file-input-button {
+      display: block;
+      width: 100%;
+      padding: 15px;
+      background: rgba(255, 255, 255, 0.15);
+      border: 2px dashed rgba(255, 255, 255, 0.5);
+      border-radius: 10px;
+      text-align: center;
+      cursor: pointer;
+      transition: all 0.3s ease;
+      font-size: 14px;
+    }
+    
+    .file-input-button:hover {
+      background: rgba(255, 255, 255, 0.25);
+      border-color: rgba(255, 255, 255, 0.8);
+    }
+    
+    .analysis-options {
+      margin-bottom: 20px;
+    }
+    
+    .analysis-type {
+      margin-bottom: 10px;
+    }
+    
+    .analysis-type label {
+      display: flex;
+      align-items: center;
+      cursor: pointer;
+      padding: 8px;
+      border-radius: 6px;
+      transition: background 0.3s ease;
+    }
+    
+    .analysis-type label:hover {
+      background: rgba(255, 255, 255, 0.1);
+    }
+    
+    .analysis-type input[type="radio"] {
+      margin-right: 8px;
+    }
+    
+    .analyze-btn {
+      width: 100%;
+      padding: 15px;
+      background: #4CAF50;
+      color: white;
+      border: none;
+      border-radius: 10px;
+      font-size: 16px;
+      font-weight: 600;
+      cursor: pointer;
+      transition: all 0.3s ease;
+      margin-bottom: 15px;
+    }
+    
+    .analyze-btn:hover {
+      background: #45a049;
+      transform: translateY(-1px);
+    }
+    
+    .analyze-btn:disabled {
+      background: #666;
+      cursor: not-allowed;
+      transform: none;
+    }
+    
+    .ai-analysis {
+      background: rgba(255, 255, 255, 0.1);
+      border-radius: 10px;
+      padding: 15px;
+      margin-bottom: 15px;
+    }
+    
+    .match-score {
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      font-size: 28px;
+      font-weight: bold;
+      margin-bottom: 15px;
+      padding: 20px;
+      background: rgba(255, 255, 255, 0.2);
+      border-radius: 10px;
+    }
+    
+    .insights-section {
+      margin-bottom: 20px;
+    }
+    
+    .insights-title {
+      font-weight: 600;
+      margin-bottom: 10px;
+      display: flex;
+      align-items: center;
+    }
+    
+    .insights-content {
+      background: rgba(255, 255, 255, 0.1);
+      padding: 12px;
+      border-radius: 8px;
+      font-size: 14px;
+      line-height: 1.4;
+    }
+    
+    .skill-tags {
+      display: flex;
+      flex-wrap: wrap;
+      gap: 6px;
+      margin-top: 10px;
+    }
+    
+    .skill-tag {
+      padding: 6px 12px;
+      border-radius: 20px;
+      font-size: 12px;
+      font-weight: 500;
+    }
+    
+    .skill-tag.matched {
+      background: #4CAF50;
+    }
+    
+    .skill-tag.missing {
+      background: #f44336;
+    }
+    
+    .skill-tag.recommended {
+      background: #FF9800;
+    }
+    
+    /* Settings Tab Styles */
+    .setting-group {
+      margin-bottom: 20px;
+    }
+    
+    .setting-label {
+      font-weight: 600;
+      margin-bottom: 8px;
+      display: block;
+    }
+    
+    .setting-input {
+      width: 100%;
+      padding: 12px;
+      border: 1px solid rgba(255, 255, 255, 0.3);
+      border-radius: 8px;
+      background: rgba(255, 255, 255, 0.1);
+      color: white;
+      font-size: 14px;
+    }
+    
+    .setting-input::placeholder {
+      color: rgba(255, 255, 255, 0.6);
+    }
+    
+    .setting-description {
+      font-size: 12px;
+      opacity: 0.8;
+      margin-top: 5px;
+    }
+    
+    .save-btn {
+      width: 100%;
+      padding: 12px;
+      background: #2196F3;
+      color: white;
+      border: none;
+      border-radius: 8px;
+      font-size: 14px;
+      cursor: pointer;
+      transition: background 0.3s ease;
+    }
+    
+    .save-btn:hover {
+      background: #1976D2;
+    }
+    
+    /* History Tab Styles */
+    .history-item {
+      background: rgba(255, 255, 255, 0.1);
+      padding: 15px;
+      border-radius: 10px;
+      margin-bottom: 10px;
+      cursor: pointer;
+      transition: background 0.3s ease;
+    }
+    
+    .history-item:hover {
+      background: rgba(255, 255, 255, 0.2);
+    }
+    
+    .history-header {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      margin-bottom: 5px;
+    }
+    
+    .history-title {
+      font-weight: 600;
+      font-size: 14px;
+    }
+    
+    .history-score {
+      font-weight: 600;
+      font-size: 16px;
+    }
+    
+    .history-meta {
+      font-size: 12px;
+      opacity: 0.8;
+    }
+    
+    .status {
+      text-align: center;
+      margin: 15px 0;
+      font-style: italic;
+      font-size: 14px;
+    }
+    
+    .loading {
+      color: #FFD700;
+    }
+    
+    .error {
+      color: #FF6B6B;
+    }
+    
+    .success {
+      color: #4CAF50;
+    }
+    
+    .progress-bar {
+      width: 100%;
+      height: 4px;
+      background: rgba(255, 255, 255, 0.2);
+      border-radius: 2px;
+      overflow: hidden;
+      margin: 10px 0;
+    }
+    
+    .progress-fill {
+      height: 100%;
+      background: #4CAF50;
+      transition: width 0.3s ease;
+      width: 0%;
+    }
+  </style>
+</head>
+<body>
+  <div class="header">
+    <h1>🤖 AI Resume Optimizer</h1>
+    <div class="subtitle">Intelligent job matching & resume optimization</div>
+  </div>
+  
+  <div class="tabs">
+    <button class="tab active" data-tab="analyze">🔍 Analyze</button>
+    <button class="tab" data-tab="settings">⚙️ Settings</button>
+    <button class="tab" data-tab="history">📊 History</button>
+  </div>
+  
+  <!-- Analyze Tab -->
+  <div class="tab-content active" id="analyze">
+    <div class="upload-section">
+      <div class="file-input-wrapper">
+        <input type="file" id="resumeFile" class="file-input" accept=".pdf,.txt,.docx">
+        <label for="resumeFile" class="file-input-button">
+          📄 Upload Resume (PDF, TXT, DOCX)
+        </label>
+      </div>
+      <div id="fileName" class="status"></div>
+    </div>
+    
+    <div class="analysis-options">
+      <div class="analysis-type">
+        <label>
+          <input type="radio" name="analysisType" value="comprehensive" checked>
+          🧠 Comprehensive AI Analysis
+        </label>
+      </div>
+      <div class="analysis-type">
+        <label>
+          <input type="radio" name="analysisType" value="quick">
+          ⚡ Quick Match Score
+        </label>
+      </div>
+      <div class="analysis-type">
+        <label>
+          <input type="radio" name="analysisType" value="optimization">
+          📈 Resume Optimization
+        </label>
+      </div>
+    </div>
+    
+    <button id="analyzeBtn" class="analyze-btn" disabled>
+      🔍 Analyze Current Job Posting
+    </button>
+    
+    <div id="status" class="status"></div>
+    <div class="progress-bar" id="progressBar" style="display: none;">
+      <div class="progress-fill" id="progressFill"></div>
+    </div>
+    
+    <div id="results" style="display: none;">
+      <div id="matchScore" class="match-score"></div>
+      
+      <div class="insights-section">
+        <div class="insights-title">💡 AI Insights</div>
+        <div id="aiInsights" class="insights-content"></div>
+      </div>
+      
+      <div class="insights-section">
+        <div class="insights-title">✅ Matched Skills</div>
+        <div id="matchedSkills" class="skill-tags"></div>
+      </div>
+      
+      <div class="insights-section">
+        <div class="insights-title">❌ Missing Skills</div>
+        <div id="missingSkills" class="skill-tags"></div>
+      </div>
+      
+      <div class="insights-section">
+        <div class="insights-title">🎯 Recommended Actions</div>
+        <div id="recommendations" class="insights-content"></div>
+      </div>
+    </div>
+  </div>
+  
+  <!-- Settings Tab -->
+  <div class="tab-content" id="settings">
+    <div class="setting-group">
+      <label class="setting-label">OpenAI API Key</label>
+      <input type="password" id="apiKey" class="setting-input" placeholder="sk-...">
+      <div class="setting-description">Get your API key from platform.openai.com</div>
+    </div>
+    
+    <div class="setting-group">
+      <label class="setting-label">Analysis Model</label>
+      <select id="modelSelect" class="setting-input">
+        <option value="gpt-4o-mini">GPT-4o Mini (Fast & Economical)</option>
+        <option value="gpt-4o">GPT-4o (Best Quality)</option>
+        <option value="gpt-3.5-turbo">GPT-3.5 Turbo (Fastest)</option>
+      </select>
+    </div>
+    
+    <div class="setting-group">
+      <label class="setting-label">
+        <input type="checkbox" id="autoAnalyze"> Auto-analyze on job sites
+      </label>
+      <div class="setting-description">Automatically analyze when visiting job posting pages</div>
+    </div>
+    
+    <div class="setting-group">
+      <label class="setting-label">
+        <input type="checkbox" id="highlightKeywords"> Highlight keywords on page
+      </label>
+      <div class="setting-description">Visual highlighting of matched/missing keywords</div>
+    </div>
+    
+    <button id="saveSettings" class="save-btn">💾 Save Settings</button>
+    
+    <div id="settingsStatus" class="status"></div>
+  </div>
+  
+  <!-- History Tab -->
+  <div class="tab-content" id="history">
+    <div id="historyList"></div>
+    <button id="clearHistory" class="save-btn" style="background: #f44336; margin-top: 20px;">
+      🗑️ Clear History
+    </button>
+  </div>
+  
+  <script src="lib/pdf.min.js"></script>
+  <script src="popup.js"></script>
+</body>
+</html>

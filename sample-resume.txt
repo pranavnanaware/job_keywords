@@ -1,0 +1,128 @@
+SARAH CHEN
+Software Engineer
+
+📧 sarah.chen@email.com
+📱 (555) 123-4567
+🌐 LinkedIn: linkedin.com/in/sarahchen
+🔗 GitHub: github.com/sarahchen
+📍 San Francisco, CA
+
+PROFESSIONAL SUMMARY
+Results-driven Software Engineer with 4+ years of experience developing scalable web applications and APIs. Proficient in full-stack development with expertise in React, Node.js, and cloud technologies. Strong background in agile methodologies and collaborative development environments.
+
+TECHNICAL SKILLS
+
+Programming Languages:
+• JavaScript (ES6+)
+• Python
+• TypeScript
+• Java
+• HTML5
+• CSS3
+• SQL
+
+Frameworks & Libraries:
+• React
+• Node.js
+• Express.js
+• Django
+• Flask
+• Redux
+• Material-UI
+• Bootstrap
+
+Databases:
+• PostgreSQL
+• MongoDB
+• MySQL
+• Redis
+
+Cloud & DevOps:
+• AWS (EC2, S3, Lambda, RDS)
+• Docker
+• Kubernetes
+• Jenkins
+• Git
+• GitHub Actions
+• Terraform
+
+Tools & Methodologies:
+• Agile/Scrum
+• Test-Driven Development (TDD)
+• RESTful APIs
+• GraphQL
+• Microservices
+• CI/CD
+• Jest
+• Cypress
+• Jira
+• Slack
+
+PROFESSIONAL EXPERIENCE
+
+Senior Software Engineer | TechFlow Inc. | March 2022 - Present
+• Developed and maintained React-based web applications serving 100K+ daily active users
+• Built RESTful APIs using Node.js and Express.js, improving response times by 40%
+• Implemented automated testing with Jest and Cypress, achieving 95% code coverage
+• Collaborated with cross-functional teams using Agile methodologies
+• Mentored 2 junior developers on best practices and code review processes
+• Designed and implemented microservices architecture using Docker and Kubernetes
+
+Software Engineer | DataSolutions Co. | June 2020 - March 2022
+• Created responsive web interfaces using React and Material-UI
+• Developed Python-based data processing pipelines handling 1M+ records daily
+• Integrated third-party APIs and payment systems (Stripe, PayPal)
+• Optimized database queries in PostgreSQL, reducing load times by 35%
+• Participated in code reviews and maintained high code quality standards
+• Implemented AWS Lambda functions for serverless computing solutions
+
+Junior Software Developer | StartupXYZ | August 2019 - June 2020
+• Built web applications using JavaScript, HTML5, and CSS3
+• Worked with MongoDB for data storage and retrieval
+• Collaborated with design team to implement pixel-perfect UI components
+• Fixed bugs and implemented new features based on user feedback
+• Learned and applied version control with Git and GitHub
+
+PROJECTS
+
+E-Commerce Platform | Personal Project | 2023
+• Full-stack web application built with React, Node.js, and PostgreSQL
+• Implemented user authentication, shopping cart, and payment processing
+• Deployed on AWS using Docker containers and managed with Kubernetes
+• Technologies: React, Node.js, Express, PostgreSQL, Docker, AWS, Stripe API
+
+Task Management System | Team Project | 2022
+• Collaborative project management tool with real-time updates
+• Built with React frontend and Django REST API backend
+• Implemented WebSocket connections for live collaboration features
+• Technologies: React, Django, WebSockets, Redis, PostgreSQL
+
+Weather Analytics Dashboard | Hackathon Winner | 2021
+• Data visualization dashboard processing weather API data
+• Built responsive interface with interactive charts and maps
+• Won 1st place at TechCity Hackathon 2021
+• Technologies: React, D3.js, Python, Flask, OpenWeatherMap API
+
+EDUCATION
+
+Bachelor of Science in Computer Science
+University of California, Berkeley | 2015 - 2019
+• GPA: 3.8/4.0
+• Relevant Coursework: Data Structures, Algorithms, Database Systems, Software Engineering
+• Dean's List: Fall 2018, Spring 2019
+
+CERTIFICATIONS
+• AWS Certified Developer - Associate (2023)
+• Certified Scrum Master (CSM) (2022)
+• Google Cloud Professional Cloud Developer (2021)
+
+ACHIEVEMENTS
+• TechCity Hackathon 2021 - 1st Place Winner
+• Employee of the Month - TechFlow Inc. (September 2022)
+• Open Source Contributor - React Testing Library (50+ commits)
+• Technical Blog Writer - Medium (10K+ followers)
+
+LANGUAGES
+• English (Native)
+• Mandarin Chinese (Fluent)
+• Spanish (Conversational)
