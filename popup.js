@@ -231,29 +231,58 @@ ${jobData.jobText}
 Provide a comprehensive analysis in the following JSON format:
 {
   "matchScore": 85,
-  "matchedSkills": ["JavaScript", "React", "Node.js"],
-  "missingSkills": ["Python", "AWS", "Docker"],
-  "recommendedSkills": ["TypeScript", "GraphQL"],
+  "matchedKeywords": ["JavaScript", "React", "Node.js"],
+  "missingKeywords": ["Python", "AWS", "Docker"],
+  "recommendedKeywords": ["TypeScript", "GraphQL"],
   "insights": "Detailed analysis of strengths and gaps...",
   "recommendations": "Specific actionable recommendations...",
+  "bulletSuggestions": [
+    {
+      "type": "new",
+      "content": "Developed scalable web applications using React and Node.js, serving 10,000+ users daily"
+    },
+    {
+      "type": "modify",
+      "original": "Worked on web development projects",
+      "improved": "Architected and delivered 5+ full-stack web applications using modern JavaScript frameworks, improving user engagement by 40%"
+    }
+  ],
   "atsOptimization": "Tips for ATS optimization...",
-  "salaryInsights": "Market salary insights based on skills...",
+  "salaryInsights": "Market salary insights based on keywords...",
   "careerPath": "Suggested career progression..."
 }`,
     
-    quick: `Quickly analyze this resume against the job posting for skill matching.
+    quick: `Quickly analyze this resume against the job posting for keyword matching.
 
 RESUME: ${resumeText}
 JOB POSTING: ${jobData.jobText}
 
-Return JSON: {"matchScore": 75, "matchedSkills": ["skill1"], "missingSkills": ["skill2"], "insights": "brief analysis"}`,
+Return JSON: {"matchScore": 75, "matchedKeywords": ["keyword1"], "missingKeywords": ["keyword2"], "insights": "brief analysis"}`,
     
     optimization: `You are a resume optimization expert. Help improve this resume for the specific job posting.
 
 RESUME: ${resumeText}
 JOB POSTING: ${jobData.jobText}
 
-Return JSON with optimization suggestions: {"matchScore": 70, "recommendations": "specific improvements", "keywordSuggestions": ["keyword1"], "resumeRewrite": "suggested sections to rewrite"}`
+Return JSON with optimization suggestions: {
+  "matchScore": 70,
+  "matchedKeywords": ["keyword1"],
+  "missingKeywords": ["keyword2"],
+  "recommendations": "specific improvements",
+  "bulletSuggestions": [
+    {
+      "type": "new",
+      "content": "New bullet point that addresses missing keywords"
+    },
+    {
+      "type": "modify",
+      "original": "Existing bullet from resume",
+      "improved": "Enhanced version with relevant keywords"
+    }
+  ],
+  "keywordSuggestions": ["keyword1"],
+  "resumeRewrite": "suggested sections to rewrite"
+}`
   };
 
   // Clean and validate API key
@@ -330,10 +359,11 @@ Return JSON with optimization suggestions: {"matchScore": 70, "recommendations":
     // If all parsing fails, create a fallback response
     return {
       matchScore: 0,
-      matchedSkills: [],
-      missingSkills: [],
+      matchedKeywords: [],
+      missingKeywords: [],
       insights: 'Unable to parse AI response. Raw response: ' + content,
       recommendations: 'Please try the analysis again. If the issue persists, check your API settings.',
+      bulletSuggestions: [],
       error: 'Failed to parse AI response'
     };
   }
@@ -356,34 +386,74 @@ function displayResults(analysis) {
   document.getElementById('aiInsights').innerHTML = 
     `<div style="white-space: pre-wrap; line-height: 1.5;">${insights}</div>`;
   
-  // Matched Skills
-  const matchedSkills = document.getElementById('matchedSkills');
-  matchedSkills.innerHTML = '';
-  (analysis.matchedSkills || []).forEach(skill => {
+  // Matched Keywords
+  const matchedKeywords = document.getElementById('matchedKeywords');
+  matchedKeywords.innerHTML = '';
+  (analysis.matchedKeywords || []).forEach(keyword => {
     const tag = document.createElement('span');
-    tag.className = 'skill-tag matched';
-    tag.textContent = skill;
-    matchedSkills.appendChild(tag);
+    tag.className = 'keyword-tag matched';
+    tag.textContent = keyword;
+    matchedKeywords.appendChild(tag);
   });
   
-  // Add message if no matched skills
-  if (!analysis.matchedSkills || analysis.matchedSkills.length === 0) {
-    matchedSkills.innerHTML = '<span class="no-skills">No matched skills found</span>';
+  // Add message if no matched keywords
+  if (!analysis.matchedKeywords || analysis.matchedKeywords.length === 0) {
+    matchedKeywords.innerHTML = '<span class="no-keywords">No matched keywords found</span>';
   }
   
-  // Missing Skills
-  const missingSkills = document.getElementById('missingSkills');
-  missingSkills.innerHTML = '';
-  (analysis.missingSkills || []).forEach(skill => {
+  // Missing Keywords
+  const missingKeywords = document.getElementById('missingKeywords');
+  missingKeywords.innerHTML = '';
+  (analysis.missingKeywords || []).forEach(keyword => {
     const tag = document.createElement('span');
-    tag.className = 'skill-tag missing';
-    tag.textContent = skill;
-    missingSkills.appendChild(tag);
+    tag.className = 'keyword-tag missing';
+    tag.textContent = keyword;
+    missingKeywords.appendChild(tag);
   });
   
-  // Add message if no missing skills
-  if (!analysis.missingSkills || analysis.missingSkills.length === 0) {
-    missingSkills.innerHTML = '<span class="no-skills">No missing skills identified</span>';
+  // Add message if no missing keywords
+  if (!analysis.missingKeywords || analysis.missingKeywords.length === 0) {
+    missingKeywords.innerHTML = '<span class="no-keywords">No missing keywords identified</span>';
+  }
+  
+  // Bullet Suggestions
+  const bulletSuggestions = document.getElementById('bulletSuggestions');
+  bulletSuggestions.innerHTML = '';
+  
+  if (analysis.bulletSuggestions && analysis.bulletSuggestions.length > 0) {
+    const suggestionsContainer = document.createElement('div');
+    suggestionsContainer.className = 'bullet-suggestions';
+    
+    analysis.bulletSuggestions.forEach(suggestion => {
+      const bulletItem = document.createElement('div');
+      bulletItem.className = 'bullet-item';
+      
+      const bulletType = document.createElement('div');
+      bulletType.className = 'bullet-type';
+      bulletType.textContent = suggestion.type === 'new' ? '✨ New Bullet Point' : '🔄 Improved Bullet Point';
+      
+      const bulletContent = document.createElement('div');
+      bulletContent.style.cssText = 'line-height: 1.4; margin-top: 5px;';
+      
+      if (suggestion.type === 'modify') {
+        bulletContent.innerHTML = `
+          <div style="color: #FFB74D; font-size: 12px; margin-bottom: 5px;">Original:</div>
+          <div style="color: #ccc; font-style: italic; margin-bottom: 8px;">"${suggestion.original}"</div>
+          <div style="color: #FFB74D; font-size: 12px; margin-bottom: 5px;">Improved:</div>
+          <div style="color: #fff; font-weight: 500;">"${suggestion.improved}"</div>
+        `;
+      } else {
+        bulletContent.innerHTML = `<div style="color: #fff; font-weight: 500;">"${suggestion.content}"</div>`;
+      }
+      
+      bulletItem.appendChild(bulletType);
+      bulletItem.appendChild(bulletContent);
+      suggestionsContainer.appendChild(bulletItem);
+    });
+    
+    bulletSuggestions.appendChild(suggestionsContainer);
+  } else {
+    bulletSuggestions.innerHTML = '<div style="color: #ccc; font-style: italic;">No bullet suggestions available</div>';
   }
   
   // Recommendations - Format properly
@@ -398,8 +468,8 @@ function displayResults(analysis) {
     chrome.tabs.query({active: true, currentWindow: true}, function(tabs) {
       chrome.tabs.sendMessage(tabs[0].id, {
         action: 'highlightKeywords',
-        matchedSkills: analysis.matchedSkills || [],
-        missingSkills: analysis.missingSkills || []
+        matchedKeywords: analysis.matchedKeywords || [],
+        missingKeywords: analysis.missingKeywords || []
       });
     });
   }

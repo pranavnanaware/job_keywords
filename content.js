@@ -6,7 +6,7 @@ chrome.runtime.onMessage.addListener(function(request, sender, sendResponse) {
     const jobData = scrapeJobPosting();
     sendResponse(jobData);
   } else if (request.action === 'highlightKeywords') {
-    highlightKeywordsOnPage(request.matchedSkills, request.missingSkills);
+    highlightKeywordsOnPage(request.matchedKeywords, request.missingKeywords);
     sendResponse({success: true});
   } else if (request.action === 'clearHighlights') {
     clearHighlights();
@@ -447,13 +447,13 @@ function cleanJobText(text) {
   return text;
 }
 
-// Enhanced keyword highlighting with different colors for matched/missing skills
-function highlightKeywordsOnPage(matchedSkills, missingSkills) {
+// Enhanced keyword highlighting with different colors for matched/missing keywords
+function highlightKeywordsOnPage(matchedKeywords, missingKeywords) {
   // Clear existing highlights first
   clearHighlights();
   
-  const allSkills = [...(matchedSkills || []), ...(missingSkills || [])];
-  if (allSkills.length === 0) return;
+  const allKeywords = [...(matchedKeywords || []), ...(missingKeywords || [])];
+  if (allKeywords.length === 0) return;
   
   const walker = document.createTreeWalker(
     document.body,
@@ -479,26 +479,26 @@ function highlightKeywordsOnPage(matchedSkills, missingSkills) {
     let content = textNode.textContent;
     let modified = false;
     
-    // Highlight matched skills in green
-    (matchedSkills || []).forEach(skill => {
-      const regex = new RegExp(`\\b${escapeRegex(skill)}\\b`, 'gi');
+    // Highlight matched keywords in green
+    (matchedKeywords || []).forEach(keyword => {
+      const regex = new RegExp(`\\b${escapeRegex(keyword)}\\b`, 'gi');
       if (regex.test(content)) {
         content = content.replace(regex, 
           `<mark class="ai-resume-highlight ai-resume-matched" 
                  style="background-color: #4CAF50; color: white; padding: 2px 4px; border-radius: 3px; font-weight: 500;" 
-                 title="✅ Matched skill: ${skill}">$&</mark>`);
+                 title="✅ Matched keyword: ${keyword}">$&</mark>`);
         modified = true;
       }
     });
     
-    // Highlight missing skills in red
-    (missingSkills || []).forEach(skill => {
-      const regex = new RegExp(`\\b${escapeRegex(skill)}\\b`, 'gi');
+    // Highlight missing keywords in red
+    (missingKeywords || []).forEach(keyword => {
+      const regex = new RegExp(`\\b${escapeRegex(keyword)}\\b`, 'gi');
       if (regex.test(content)) {
         content = content.replace(regex, 
           `<mark class="ai-resume-highlight ai-resume-missing" 
                  style="background-color: #f44336; color: white; padding: 2px 4px; border-radius: 3px; font-weight: 500;" 
-                 title="❌ Missing skill: ${skill}">$&</mark>`);
+                 title="❌ Missing keyword: ${keyword}">$&</mark>`);
         modified = true;
       }
     });
@@ -512,7 +512,7 @@ function highlightKeywordsOnPage(matchedSkills, missingSkills) {
   });
   
   // Show highlight summary
-  showHighlightSummary(matchedSkills?.length || 0, missingSkills?.length || 0);
+  showHighlightSummary(matchedKeywords?.length || 0, missingKeywords?.length || 0);
 }
 
 function clearHighlights() {
@@ -559,10 +559,10 @@ function showHighlightSummary(matchedCount, missingCount) {
   summary.innerHTML = `
     <div style="font-weight: 600; margin-bottom: 8px;">🤖 AI Resume Analysis</div>
     <div style="margin-bottom: 5px;">
-      <span style="color: #4CAF50;">✅ ${matchedCount} matched skills</span>
+      <span style="color: #4CAF50;">✅ ${matchedCount} matched keywords</span>
     </div>
     <div style="margin-bottom: 10px;">
-      <span style="color: #f44336;">❌ ${missingCount} missing skills</span>
+      <span style="color: #f44336;">❌ ${missingCount} missing keywords</span>
     </div>
     <div style="font-size: 12px; opacity: 0.8; cursor: pointer;" onclick="this.parentElement.remove()">
       Click to dismiss
