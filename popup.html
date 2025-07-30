@@ -1,0 +1,290 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Job Keywords Optimizer</title>
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            width: 400px;
+            min-height: 600px;
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            color: #333;
+        }
+
+        .container {
+            padding: 20px;
+        }
+
+        .header {
+            text-align: center;
+            margin-bottom: 25px;
+        }
+
+        .header h1 {
+            color: white;
+            font-size: 24px;
+            margin-bottom: 5px;
+        }
+
+        .header p {
+            color: rgba(255, 255, 255, 0.8);
+            font-size: 14px;
+        }
+
+        .card {
+            background: white;
+            border-radius: 12px;
+            padding: 20px;
+            margin-bottom: 15px;
+            box-shadow: 0 4px 15px rgba(0, 0, 0, 0.1);
+        }
+
+        .section-title {
+            font-weight: 600;
+            font-size: 16px;
+            margin-bottom: 12px;
+            color: #4a5568;
+            display: flex;
+            align-items: center;
+            gap: 8px;
+        }
+
+        .section-title::before {
+            content: '';
+            width: 4px;
+            height: 16px;
+            background: linear-gradient(135deg, #667eea, #764ba2);
+            border-radius: 2px;
+        }
+
+        textarea {
+            width: 100%;
+            min-height: 80px;
+            padding: 12px;
+            border: 2px solid #e2e8f0;
+            border-radius: 8px;
+            font-size: 14px;
+            font-family: inherit;
+            resize: vertical;
+            transition: border-color 0.2s;
+        }
+
+        textarea:focus {
+            outline: none;
+            border-color: #667eea;
+        }
+
+        .button {
+            width: 100%;
+            padding: 12px 20px;
+            background: linear-gradient(135deg, #667eea, #764ba2);
+            color: white;
+            border: none;
+            border-radius: 8px;
+            font-size: 16px;
+            font-weight: 600;
+            cursor: pointer;
+            transition: transform 0.2s, box-shadow 0.2s;
+            margin-top: 15px;
+        }
+
+        .button:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 8px 25px rgba(102, 126, 234, 0.3);
+        }
+
+        .button:disabled {
+            opacity: 0.6;
+            cursor: not-allowed;
+            transform: none;
+        }
+
+        .score-section {
+            text-align: center;
+            margin: 15px 0;
+        }
+
+        .score-circle {
+            width: 80px;
+            height: 80px;
+            border-radius: 50%;
+            margin: 0 auto 10px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 24px;
+            font-weight: bold;
+            color: white;
+            background: conic-gradient(from 0deg, #10b981 var(--percentage), #e5e7eb var(--percentage));
+        }
+
+        .score-label {
+            font-size: 14px;
+            color: #6b7280;
+        }
+
+        .suggestions-list {
+            max-height: 200px;
+            overflow-y: auto;
+        }
+
+        .suggestion-item {
+            background: #f8fafc;
+            border: 1px solid #e2e8f0;
+            border-radius: 8px;
+            padding: 12px;
+            margin-bottom: 10px;
+            transition: all 0.2s;
+        }
+
+        .suggestion-item:hover {
+            background: #f1f5f9;
+            border-color: #667eea;
+        }
+
+        .suggestion-type {
+            font-size: 12px;
+            font-weight: 600;
+            color: #667eea;
+            margin-bottom: 5px;
+            text-transform: uppercase;
+        }
+
+        .suggestion-text {
+            font-size: 14px;
+            line-height: 1.4;
+        }
+
+        .improvement-score {
+            font-size: 12px;
+            color: #10b981;
+            font-weight: 600;
+            margin-top: 5px;
+        }
+
+        .tabs {
+            display: flex;
+            border-bottom: 2px solid #e2e8f0;
+            margin-bottom: 15px;
+        }
+
+        .tab {
+            flex: 1;
+            padding: 10px;
+            text-align: center;
+            background: none;
+            border: none;
+            cursor: pointer;
+            font-size: 14px;
+            font-weight: 600;
+            color: #6b7280;
+            transition: all 0.2s;
+        }
+
+        .tab.active {
+            color: #667eea;
+            border-bottom: 2px solid #667eea;
+        }
+
+        .tab-content {
+            display: none;
+        }
+
+        .tab-content.active {
+            display: block;
+        }
+
+        .loading {
+            text-align: center;
+            padding: 20px;
+            color: #6b7280;
+        }
+
+        .spinner {
+            width: 20px;
+            height: 20px;
+            border: 2px solid #e2e8f0;
+            border-top: 2px solid #667eea;
+            border-radius: 50%;
+            animation: spin 1s linear infinite;
+            margin: 0 auto 10px;
+        }
+
+        @keyframes spin {
+            0% { transform: rotate(0deg); }
+            100% { transform: rotate(360deg); }
+        }
+
+        .extract-button {
+            background: linear-gradient(135deg, #10b981, #059669);
+            margin-bottom: 10px;
+        }
+
+        .extract-button:hover {
+            box-shadow: 0 8px 25px rgba(16, 185, 129, 0.3);
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <div class="header">
+            <h1>Job Keywords Optimizer</h1>
+            <p>Optimize your resume for better job matching</p>
+        </div>
+
+        <div class="card">
+            <div class="section-title">Job Description</div>
+            <button id="extractJobBtn" class="button extract-button">Extract from Current Page</button>
+            <textarea id="jobDescription" placeholder="Paste the job description here or extract from the current page..."></textarea>
+        </div>
+
+        <div class="card">
+            <div class="section-title">Your Resume Bullets</div>
+            <textarea id="resumeBullets" placeholder="Paste your current resume bullet points here..."></textarea>
+        </div>
+
+        <button id="analyzeBtn" class="button">Analyze & Get Suggestions</button>
+
+        <div id="resultsSection" style="display: none;">
+            <div class="card">
+                <div class="score-section">
+                    <div id="scoreCircle" class="score-circle" style="--percentage: 0%">0%</div>
+                    <div class="score-label">Keyword Match Score</div>
+                </div>
+            </div>
+
+            <div class="card">
+                <div class="tabs">
+                    <button class="tab active" data-tab="suggestions">Suggestions</button>
+                    <button class="tab" data-tab="keywords">Keywords</button>
+                </div>
+
+                <div id="suggestionsTab" class="tab-content active">
+                    <div class="section-title">Bullet Point Suggestions</div>
+                    <div id="suggestionsList" class="suggestions-list"></div>
+                </div>
+
+                <div id="keywordsTab" class="tab-content">
+                    <div class="section-title">Missing Keywords</div>
+                    <div id="keywordsList"></div>
+                </div>
+            </div>
+        </div>
+
+        <div id="loadingSection" class="loading" style="display: none;">
+            <div class="spinner"></div>
+            <div>Analyzing keywords and generating suggestions...</div>
+        </div>
+    </div>
+
+    <script src="popup.js"></script>
+</body>
+</html>
