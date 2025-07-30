@@ -193,30 +193,54 @@
       line-height: 1.4;
     }
     
-    .skill-tags {
+    .keyword-tags {
       display: flex;
       flex-wrap: wrap;
       gap: 6px;
       margin-top: 10px;
     }
     
-    .skill-tag {
+    .keyword-tag {
       padding: 6px 12px;
       border-radius: 20px;
       font-size: 12px;
       font-weight: 500;
     }
     
-    .skill-tag.matched {
+    .keyword-tag.matched {
       background: #4CAF50;
     }
     
-    .skill-tag.missing {
+    .keyword-tag.missing {
       background: #f44336;
     }
     
-    .skill-tag.recommended {
+    .keyword-tag.recommended {
       background: #FF9800;
+    }
+    
+    .bullet-suggestions {
+      background: rgba(255, 255, 255, 0.05);
+      border-left: 4px solid #FF9800;
+      padding: 15px;
+      margin-top: 10px;
+      border-radius: 8px;
+    }
+    
+    .bullet-item {
+      background: rgba(255, 255, 255, 0.1);
+      padding: 10px;
+      margin: 8px 0;
+      border-radius: 6px;
+      border-left: 3px solid #4CAF50;
+    }
+    
+    .bullet-type {
+      font-size: 11px;
+      font-weight: 600;
+      color: #FFD700;
+      text-transform: uppercase;
+      margin-bottom: 5px;
     }
     
     /* Settings Tab Styles */
@@ -401,13 +425,18 @@
       </div>
       
       <div class="insights-section">
-        <div class="insights-title">✅ Matched Skills</div>
-        <div id="matchedSkills" class="skill-tags"></div>
+        <div class="insights-title">✅ Matched Keywords</div>
+        <div id="matchedKeywords" class="keyword-tags"></div>
       </div>
       
       <div class="insights-section">
-        <div class="insights-title">❌ Missing Skills</div>
-        <div id="missingSkills" class="skill-tags"></div>
+        <div class="insights-title">❌ Missing Keywords</div>
+        <div id="missingKeywords" class="keyword-tags"></div>
+      </div>
+      
+      <div class="insights-section">
+        <div class="insights-title">📝 Resume Bullet Suggestions</div>
+        <div id="bulletSuggestions" class="insights-content"></div>
       </div>
       
       <div class="insights-section">
